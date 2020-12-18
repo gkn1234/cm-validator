@@ -5,10 +5,10 @@ module.exports = {
       '@babel/preset-env',
       {
         // 放置babel在rollup之前做完commonJS处理，导致rollup的一些处理失败
-        'modules': false,
+        modules: false,
         // 按需打包，忽略无用代码
-        'useBuiltIns': 'usage',
-        'corejs': '2.6.10'
+        useBuiltIns: 'usage',
+        corejs: '3'
       }
     ]
   ],

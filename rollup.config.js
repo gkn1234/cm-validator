@@ -3,14 +3,17 @@ import commonjs from 'rollup-plugin-commonjs'
 import babel from "rollup-plugin-babel"
 import { terser } from 'rollup-plugin-terser'
 
+import pkg from './package.json'
+
 const isDev = process.env.NODE_ENV !== 'production';
 
 export default [
   {
-    input: 'src/main.js',
+    input: 'src/index.js',
     output: {
       name: 'cm-validator',
-      file: 'dist/bundle.js',
+      // 浏览器环境使用的JS文件
+      file: pkg.browser,
       format: 'umd'
     },
     plugins: [
@@ -23,6 +26,15 @@ export default [
         runtimeHelpers: true
       }),
       !isDev && terser()
+    ]
+  },
+  {
+    input: 'src/index.js',
+    output: [
+      // CommonJS规范的打包文件，供Node使用
+      { file: pkg.main, format: 'cjs' },
+      // ES6规范的打包文件，供常规webpack项目使用
+      { file: pkg.module, format: 'es' }
     ]
   }
 ]
